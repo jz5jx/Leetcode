@@ -1,0 +1,50 @@
+class Solution(object):
+    def addBinary(self, a, b):
+        """
+        :type a: str
+        :type b: str
+        :rtype: str
+        """
+
+        
+        '''
+        Notes: 
+            11
+        +    1
+        _________
+            100
+        Binary system is in powers of 2. Therefore, the first pos is 1 the second 2 the third 4...
+        Therefore there are a few cases we should pay attention to:
+        the first case: We add 1 and 0. We should just return 1. 
+        the second case: We add 0 and 0 we should return 0.
+        the third case: we add 1 and 1 together. 
+        
+        Third Case: As we can see, we return 0 for that position we carry over the one. We add again
+        in the next position. If it is another one + one we return 0 and carry over again and then return 
+        the one at the very end.
+        '''
+        
+        ret_str = '' #Return string
+        num_1 = len(a) - 1 #Length of num 1 
+        num_2 = len(b) - 1 #Length of num 2
+        carry = 0 
+        addition = 0 
+        
+        while (num_1 >= 0 or num_2 >= 0): #Gaurantee tranversal of both Strings (OR Operator)
+            addition = carry
+            if (num_1 >= 0):
+                addition += int(a[num_1])
+            if (num_2 >= 0):
+                addition += int(b[num_2])
+                
+            ret_str += str(addition % 2) #If we have just 1 % 2 we return 0. If we add two 1's return 0. 
+            carry = addition / 2 # Int Floor division 1 / 2 = 0  #If we were adding two 1's. 1 is carried
+                                # If we were to add 1 and 0. we would carry over 0. We do this continuous
+                
+            num_1 -= 1 #Decrement pointer
+            num_2 -= 1 #Decrement pointer
+        
+        if carry != 0:
+            ret_str += str(carry)
+        ### Because string appending builds beginning to end we have to reverse the return string.
+        return ret_str[::-1]
